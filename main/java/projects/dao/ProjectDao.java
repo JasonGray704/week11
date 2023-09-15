@@ -173,7 +173,14 @@ public Project insertProject(Project project) {
 	}
 
 	public boolean modifyProjectDetails(Project project) {
-		String sql = "" + "UPDATE " + PROJECT_TABLE + " SET " + "project_name = ?, " + "estimated_hours = ?, " + "actual_hours = ?, " + "notes = ? " + "WHERE project_id = ?";
+// @formatter: off
+		String sql = "" + "UPDATE " + PROJECT_TABLE + " SET " 
+						+ "project_name = ?, " 
+						+ "estimated_hours = ?, "
+						+ "actual_hours = ?, " 
+						+ "difficulty = ?, "
+						+ "notes = ? " 
+						+ "WHERE project_id = ?";
 		
 		try(Connection conn = DbConnection.getConnection()) {
 			startTransaction(conn);
@@ -185,7 +192,7 @@ public Project insertProject(Project project) {
 			setParameter(stmt, 3, project.getActualHours(), BigDecimal.class);
 			setParameter(stmt, 4, project.getDifficulty(), Integer.class);
 			setParameter(stmt, 5, project.getNotes(), String.class);
-			setParameter(stmt, 4, project.getProjectId(), Integer.class);
+			setParameter(stmt, 6, project.getProjectId(), Integer.class);
 			
 			boolean modified = stmt.executeUpdate() == 1;
 			commitTransaction(conn);
